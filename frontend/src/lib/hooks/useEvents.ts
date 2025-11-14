@@ -28,6 +28,8 @@ export function useEvents() {
     isTodayLoading: todayQuery.isLoading,
     history: historyQuery.data?.data,
     isHistoryLoading: historyQuery.isLoading,
+    events: historyQuery.data?.data?.items || [],
+    isLoading: historyQuery.isLoading,
     generateEvent: generateMutation.mutateAsync,
     isGenerating: generateMutation.isPending,
   };

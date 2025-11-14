@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 import prisma from '../config/database';
 import { generateAccessToken, generateRefreshToken } from '../utils/jwt.utils';
-import { ConflictError, UnauthorizedError, ValidationError } from '../utils/errors';
+import { ConflictError, UnauthorizedError } from '../utils/errors';
 import logger from '../utils/logger';
 
 const SALT_ROUNDS = 12;

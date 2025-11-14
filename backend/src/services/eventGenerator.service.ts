@@ -1,4 +1,4 @@
-import { Profile, Event, EventType } from '@prisma/client';
+import { Profile, Event } from '@prisma/client';
 import prisma from '../config/database';
 import { DeterministicEngine } from './deterministicEngine.service';
 import { EVENT_TEMPLATES } from '../data/eventTemplates';

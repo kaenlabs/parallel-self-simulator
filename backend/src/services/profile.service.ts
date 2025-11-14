@@ -1,4 +1,5 @@
-import { Profile, ProfileStatus } from '@prisma/client';
+import { Profile } from '@prisma/client';
+import { ProfileStatus } from '../types/enums';
 import prisma from '../config/database';
 import { generateProfileSeed } from '../utils/crypto.utils';
 import { NotFoundError, ConflictError, ForbiddenError } from '../utils/errors';

@@ -1,4 +1,4 @@
-import { EventType } from '@prisma/client';
+import { EventType } from '../types/enums';
 
 export interface EventTemplateData {
   eventType: EventType;

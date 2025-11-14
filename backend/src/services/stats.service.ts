@@ -1,6 +1,7 @@
-import { ProfileStats, EventType } from '@prisma/client';
+import { ProfileStats } from '@prisma/client';
 import prisma from '../config/database';
 import { NotFoundError } from '../utils/errors';
+import { EventType } from '../types/enums';
 
 export interface DashboardStats {
   profile: {
@@ -42,7 +43,7 @@ export class StatsService {
     }
 
     // Son 7 günün trend'i
-    const last7Days = profile.events.map((e) => e.impactScore).reverse();
+    const last7Days = profile.events.map((e: any) => e.impactScore).reverse();
     const trendDirection = this.calculateTrend(last7Days);
 
     // Olay dağılımı
@@ -130,15 +131,15 @@ export class StatsService {
       };
     }
 
-    const impacts = events.map((e) => e.impactScore);
-    const averageImpact = impacts.reduce((a, b) => a + b, 0) / impacts.length;
+    const impacts = events.map((e: any) => e.impactScore);
+    const averageImpact = impacts.reduce((a: number, b: number) => a + b, 0) / impacts.length;
 
-    const positiveCount = impacts.filter((i) => i > 0).length;
+    const positiveCount = impacts.filter((i: number) => i > 0).length;
     const positiveRatio = (positiveCount / impacts.length) * 100;
 
     // En yaygın olay tipi
     const typeCounts: Record<string, number> = {};
-    events.forEach((e) => {
+    events.forEach((e: any) => {
       typeCounts[e.eventType] = (typeCounts[e.eventType] || 0) + 1;
     });
 
@@ -146,7 +147,7 @@ export class StatsService {
 
     // Volatility (standart sapma)
     const variance =
-      impacts.reduce((sum, val) => sum + Math.pow(val - averageImpact, 2), 0) / impacts.length;
+      impacts.reduce((sum: number, val: number) => sum + Math.pow(val - averageImpact, 2), 0) / impacts.length;
     const volatility = Math.sqrt(variance);
 
     return {

@@ -1,4 +1,5 @@
-import { Profile, EventType } from '@prisma/client';
+import { Profile } from '@prisma/client';
+import { EventType } from '../types/enums';
 import {
   TRAIT_MODIFIERS,
   WEAKNESS_MODIFIERS,
@@ -130,7 +131,7 @@ export class DeterministicEngine {
   /**
    * Streak modifierı hesaplar
    */
-  private static calculateStreakModifier(profile: Profile): number {
+  private static calculateStreakModifier(_profile: Profile): number {
     // Pozitif streak varsa bonus, negatif streak varsa malus
     // Bu bilgi profile.stats'tan gelecek
     return 0; // Şimdilik basit tutalım

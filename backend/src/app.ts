@@ -31,7 +31,7 @@ export function createApp(): Application {
   app.use('/api', routes);
 
   // Root endpoint
-  app.get('/', (req, res) => {
+  app.get('/', (_req, res) => {
     res.json({
       message: 'Parallel Self Simulator API',
       version: '1.0.0',
