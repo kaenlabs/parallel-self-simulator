@@ -1,0 +1,129 @@
+// This is your Prisma schema file
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  profile      Profile?
+  
+  @@map("users")
+}
+
+model Profile {
+  id              String        @id @default(cuid())
+  userId          String        @unique
+  characterName   String
+  mainTrait       String
+  weakness        String
+  talent          String
+  dailyGoal       String
+  seed            String        @unique
+  startDate       DateTime      @default(now())
+  currentDay      Int           @default(0)
+  cumulativeScore Int           @default(0)
+  status          ProfileStatus @default(ACTIVE)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  events          Event[]
+  stats           ProfileStats?
+  
+  @@index([userId])
+  @@index([status])
+  @@map("profiles")
+}
+
+enum ProfileStatus {
+  ACTIVE
+  PAUSED
+  COMPLETED
+}
+
+model Event {
+  id           String        @id @default(cuid())
+  profileId    String
+  dayNumber    Int
+  eventType    EventType
+  category     EventCategory
+  title        String
+  description  String        @db.Text
+  intensity    Int
+  impactScore  Int
+  detailsJson  Json?
+  generatedAt  DateTime      @default(now())
+  viewedAt     DateTime?
+  
+  profile      Profile       @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  
+  @@unique([profileId, dayNumber])
+  @@index([profileId])
+  @@index([eventType])
+  @@index([dayNumber])
+  @@map("events")
+}
+
+enum EventType {
+  SUCCESS
+  FAILURE
+  SOCIAL
+  FINANCIAL
+  INTERNAL
+  IDEA
+  CONFLICT
+}
+
+enum EventCategory {
+  POSITIVE
+  NEGATIVE
+  NEUTRAL
+}
+
+model ProfileStats {
+  id             String   @id @default(cuid())
+  profileId      String   @unique
+  totalDays      Int      @default(0)
+  successCount   Int      @default(0)
+  failureCount   Int      @default(0)
+  socialCount    Int      @default(0)
+  financialCount Int      @default(0)
+  internalCount  Int      @default(0)
+  ideaCount      Int      @default(0)
+  conflictCount  Int      @default(0)
+  averageImpact  Float    @default(0)
+  currentStreak  Int      @default(0)
+  longestStreak  Int      @default(0)
+  updatedAt      DateTime @updatedAt
+  
+  profile        Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  
+  @@index([profileId])
+  @@map("profile_stats")
+}
+
+model EventTemplate {
+  id                  String   @id @default(cuid())
+  eventType           EventType
+  intensityMin        Int
+  intensityMax        Int
+  title               String
+  descriptionTemplate String   @db.Text
+  baseImpact          Int
+  tags                String[]
+  createdAt           DateTime @default(now())
+  
+  @@index([eventType])
+  @@map("event_templates")
+}
