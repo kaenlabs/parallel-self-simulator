@@ -11,7 +11,7 @@ import { useAuth } from '@/lib/hooks/useAuth';
 export default function StatsPage() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
-  const { stats, isLoading } = useStats();
+  const { dashboard: stats, isDashboardLoading: isLoading } = useStats();
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -118,7 +118,7 @@ export default function StatsPage() {
               </Badge>
             </div>
             <div className="flex items-end justify-between gap-2 h-32">
-              {stats.recentTrend.last7Days.map((score, idx) => {
+              {stats.recentTrend.last7Days.map((score: number, idx: number) => {
                 const maxAbs = Math.max(...stats.recentTrend.last7Days.map(Math.abs));
                 const height = maxAbs > 0 ? (Math.abs(score) / maxAbs) * 100 : 0;
                 return (
@@ -147,7 +147,7 @@ export default function StatsPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {stats.eventDistribution.map((dist) => (
+                {stats.eventDistribution.map((dist: any) => (
                   <div key={dist.type}>
                     <div className="flex justify-between items-center mb-1">
                       <Badge className={getEventTypeColor(dist.type)}>

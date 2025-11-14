@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
-import apiClient from '@/lib/api/client';
+import { apiClient } from '@/lib/api/client';
 import { getEventTypeLabel, getEventTypeColor, getImpactColor, formatScore } from '@/lib/utils/formatters';
 
 export default function TestPanelPage() {
@@ -27,7 +27,7 @@ export default function TestPanelPage() {
     setError('');
     setResult(null);
     try {
-      const response = await apiClient.get('/api/health');
+      const response: any = await apiClient.get('/health');
       setResult(response.data);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Health check başarısız');
@@ -41,7 +41,7 @@ export default function TestPanelPage() {
     setError('');
     setResult(null);
     try {
-      const response = await apiClient.post('/api/test/generate-seed', testData);
+      const response: any = await apiClient.post('/test/generate-seed', testData);
       setResult(response.data);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Seed generation başarısız');
@@ -55,7 +55,7 @@ export default function TestPanelPage() {
     setError('');
     setResult(null);
     try {
-      const response = await apiClient.post('/api/test/generate-event', {
+      const response: any = await apiClient.post('/test/generate-event', {
         ...testData,
         dayNumber: 1,
       });
@@ -72,7 +72,7 @@ export default function TestPanelPage() {
     setError('');
     setResult(null);
     try {
-      const response = await apiClient.post('/api/test/generate-multiple-events', {
+      const response: any = await apiClient.post('/test/generate-multiple-events', {
         ...testData,
         days: 7,
       });
