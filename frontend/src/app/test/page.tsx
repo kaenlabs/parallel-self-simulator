@@ -27,8 +27,8 @@ export default function TestPanelPage() {
     setError('');
     setResult(null);
     try {
-      const response: any = await apiClient.get('/health');
-      setResult(response.data);
+      const data: any = await apiClient.get('/health');
+      setResult(data);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Health check başarısız');
     } finally {
@@ -41,8 +41,8 @@ export default function TestPanelPage() {
     setError('');
     setResult(null);
     try {
-      const response: any = await apiClient.post('/test/generate-seed', testData);
-      setResult(response.data);
+      const data: any = await apiClient.post('/test/generate-seed', testData);
+      setResult(data);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Seed generation başarısız');
     } finally {
@@ -55,11 +55,11 @@ export default function TestPanelPage() {
     setError('');
     setResult(null);
     try {
-      const response: any = await apiClient.post('/test/generate-event', {
+      const data: any = await apiClient.post('/test/generate-event', {
         ...testData,
         dayNumber: 1,
       });
-      setResult(response.data);
+      setResult(data);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Event generation başarısız');
     } finally {
@@ -72,11 +72,11 @@ export default function TestPanelPage() {
     setError('');
     setResult(null);
     try {
-      const response: any = await apiClient.post('/test/generate-multiple-events', {
+      const data: any = await apiClient.post('/test/generate-multiple-events', {
         ...testData,
         days: 7,
       });
-      setResult(response.data);
+      setResult(data);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Multiple events generation başarısız');
     } finally {
